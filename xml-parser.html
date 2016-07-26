@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery.parseXML demo</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+
+<h4 id="rcstring1"></h4>
+<h4 id="rcstring2"></h4>
+ 
+<p id="host"></p>
+<p id="name"></p>
+<p id="url"></p>
+<p id="name"></p>
+<p id="protocol"></p>
+<p id="directory"></p>
+<p id="user"></p>
+<p id="pass_64"></p>
+<p id="pass"></p>
+
+ 
+<script>
+// REPLACE XML VALUE WITH FILEZILLA ENTRY (i.e. export site manager entries from FZ and copy & paste the appropriate entry below)
+var xml ='<Server>      <Host>HOST</Host>      <Port>PORT</Port>      <Protocol>0</Protocol>      <Type>0</Type>      <User>USER</User>      <Pass encoding="base64">PASS</Pass>      <Logontype>1</Logontype>      <TimezoneOffset>0</TimezoneOffset>      <PasvMode>MODE_DEFAULT</PasvMode>      <MaximumMultipleConnections>0</MaximumMultipleConnections>      <EncodingType>Auto</EncodingType>      <BypassProxy>0</BypassProxy>      <Name>NAME</Name>      <Comments />      <Colour>0</Colour>      <LocalDir />      <RemoteDir />      <SyncBrowsing>0</SyncBrowsing>      <DirectoryComparison>0</DirectoryComparison>NAME</Server>', 
+xmlDoc = $.parseXML( xml ), $xml = $( xmlDoc ); $host = $xml.find( "Host" ).text().toLowerCase();
+  $name = $xml.find( "Name" ).text().toLowerCase();
+  $port = $xml.find( "Port" ).text();
+  $user = $xml.find( "User" ).text();
+  $pass_64 = $xml.find( "Pass" ).text();
+  
+
+  $url = "URL";
+  $directory = "DIR";
+
+  $pass = atob($pass_64);
+
+
+  $protocol = "ftpp";
+  if ($port === "22") {
+  	$protocol = "sftp";
+  }
+
+  $rcstring1 = "site#" + $name + "#" + $url + "#" + $protocol + "#" + $host + "#" + $directory + "#" + $user + "#" + $pass;
+  $rcstring2 = "siteopt#" + $name + "#--justwp";
+
+  $( "#rcstring1" ).append( $rcstring1 );
+  $( "#rcstring2" ).append( $rcstring2 );
+
+$( "#name" ).append( $name );
+$( "#url" ).append( $url );
+$( "#host" ).append( $host );
+$( "#protocol" ).append( $protocol );
+$( "#directory" ).append( $directory );
+$( "#user" ).append( $user );
+$( "#pass_64" ).append( $pass_64 );
+$( "#pass" ).append( $pass );
+
+
+</script>
+ 
+</body>
+</html>
